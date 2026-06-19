@@ -21,7 +21,7 @@ namespace C__olympiad_solution
             {
                 if (nrexp > 30 && nrexp < 200)
                 {
-                    Expeditie form3 = new Expeditie();
+                    Expeditie form3 = new Expeditie(nrexp);
                     this.Hide();
                     form3.Show();
                 }
