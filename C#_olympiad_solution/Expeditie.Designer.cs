@@ -47,6 +47,7 @@
             insula9 = new PictureBox();
             insula10 = new PictureBox();
             insula11 = new PictureBox();
+            start = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -257,12 +258,22 @@
             insula11.TabIndex = 17;
             insula11.TabStop = false;
             // 
+            // start
+            // 
+            start.BackColor = Color.Transparent;
+            start.Location = new Point(783, 153);
+            start.Name = "start";
+            start.Size = new Size(75, 23);
+            start.TabIndex = 18;
+            start.UseVisualStyleBackColor = false;
+            // 
             // Expeditie
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Harta900x600;
             ClientSize = new Size(884, 561);
+            Controls.Add(start);
             Controls.Add(insula11);
             Controls.Add(insula10);
             Controls.Add(insula9);
@@ -322,5 +333,6 @@
         private PictureBox insula9;
         private PictureBox insula10;
         private PictureBox insula11;
+        private Button start;
     }
 }

@@ -30,11 +30,19 @@ namespace C__olympiad_solution
             string islandFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName,"Resources","insule.txt");
             foreach(string line in System.IO.File.ReadLines(islandFile))
             {
-                if (line.StartsWith("Id") || line.StartsWith("1")) 
+                if (line.StartsWith("Id")) 
                 {
                     continue;
                 }
                 string[] data = line.Split("#");
+                if (line.StartsWith("1"))
+                {
+                    start.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
+                    start.Click+=(s, e) =>
+                    {
+                        MessageBox.Show("Start point");
+                    };
+                }
                 PictureBox currIsland=findIslandById(int.Parse(data[0]));
                 currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
                 Database.addIsland(int.Parse(data[0]), data[1], int.Parse(data[4]), int.Parse(data[5]));
