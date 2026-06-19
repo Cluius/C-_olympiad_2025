@@ -30,7 +30,7 @@ namespace C__olympiad_solution
 
     public static class Database
     {
-        private static Dictionary<string,User> usersTable;
+        private static Dictionary<string, User> usersTable;
         private static Dictionary<int, Island> islandsTable;
         private static HashSet<int> islandVisitStatus;
         static Database()
@@ -40,7 +40,7 @@ namespace C__olympiad_solution
             islandVisitStatus = new HashSet<int>();
             usersTable.Add("ojti@csharp.ro", new User("ojti@csharp.ro", "Ojti2025"));
         }
-        public static void addIsland(int id,string name, int gold, int virus)
+        public static void addIsland(int id, string name, int gold, int virus)
         {
             islandsTable.Add(id, new Island(id, name, gold, virus));
         }
@@ -66,5 +66,10 @@ namespace C__olympiad_solution
                 return false;
             }
             return true;
+        }
+        public static Dictionary<int, Island> getIslands()
+        {
+            return islandsTable;
+        }
     }
 }

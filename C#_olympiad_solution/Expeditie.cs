@@ -27,9 +27,23 @@ namespace C__olympiad_solution
                 boat.Location = new Point(boat.Location.X+addToX, boat.Location.Y+addToY);
                 boat.BringToFront();
                 this.Refresh();
-                System.Threading.Thread.Sleep(15);
+                
             }
             boat.Location = destination;
+        }
+        private void GenerateIslandLabels()
+        {
+            foreach(Island isl in Database.getIslands().Values)
+            {
+                Label lbl = new Label();
+                lbl.Text = isl.Name;
+                lbl.Location = new Point(findIslandById(isl.Id).Location.X,findIslandById(isl.Id).Location.Y-20);
+                lbl.Visible = false;
+                lbl.BackColor = Color.Transparent;
+                lbl.AutoSize = true;
+                lbl.BringToFront();
+                this.Controls.Add(lbl);
+            }
         }
         public Expeditie(int nrexp)
         {
@@ -75,6 +89,7 @@ namespace C__olympiad_solution
                 currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
                 Database.addIsland(islandId, data[1], int.Parse(data[4]), int.Parse(data[5]));
             }
+            GenerateIslandLabels();
         }
     }
 }
