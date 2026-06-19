@@ -48,6 +48,7 @@
             insula10 = new PictureBox();
             insula11 = new PictureBox();
             start = new Button();
+            boat = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -62,6 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)insula9).BeginInit();
             ((System.ComponentModel.ISupportInitialize)insula10).BeginInit();
             ((System.ComponentModel.ISupportInitialize)insula11).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)boat).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -261,11 +263,24 @@
             // start
             // 
             start.BackColor = Color.Transparent;
+            start.FlatAppearance.BorderSize = 0;
+            start.FlatStyle = FlatStyle.Flat;
             start.Location = new Point(783, 153);
             start.Name = "start";
             start.Size = new Size(75, 23);
             start.TabIndex = 18;
             start.UseVisualStyleBackColor = false;
+            // 
+            // boat
+            // 
+            boat.BackColor = Color.Transparent;
+            boat.Image = Properties.Resources.barca2;
+            boat.Location = new Point(668, 260);
+            boat.Name = "boat";
+            boat.Size = new Size(50, 50);
+            boat.SizeMode = PictureBoxSizeMode.StretchImage;
+            boat.TabIndex = 19;
+            boat.TabStop = false;
             // 
             // Expeditie
             // 
@@ -273,6 +288,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Harta900x600;
             ClientSize = new Size(884, 561);
+            Controls.Add(boat);
             Controls.Add(start);
             Controls.Add(insula11);
             Controls.Add(insula10);
@@ -309,6 +325,7 @@
             ((System.ComponentModel.ISupportInitialize)insula9).EndInit();
             ((System.ComponentModel.ISupportInitialize)insula10).EndInit();
             ((System.ComponentModel.ISupportInitialize)insula11).EndInit();
+            ((System.ComponentModel.ISupportInitialize)boat).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -334,5 +351,6 @@
         private PictureBox insula10;
         private PictureBox insula11;
         private Button start;
+        private PictureBox boat;
     }
 }

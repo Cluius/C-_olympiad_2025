@@ -18,6 +18,19 @@ namespace C__olympiad_solution
             Control[] matches = this.Controls.Find("insula" + id.ToString(), true);
             return matches.Length>0 ? (PictureBox)matches[0] : null;
         }
+        private void boatglide(Point destination)
+        {
+            int addToX = (destination.X - boat.Location.X) / 20;
+            int addToY = (destination.Y - boat.Location.Y) / 20;
+            for (int i = 0; i < 20; i++)
+            {
+                boat.Location = new Point(boat.Location.X+addToX, boat.Location.Y+addToY);
+                boat.BringToFront();
+                this.Refresh();
+                System.Threading.Thread.Sleep(15);
+            }
+            boat.Location = destination;
+        }
         public Expeditie(int nrexp)
         {
             InitializeComponent();
@@ -38,6 +51,7 @@ namespace C__olympiad_solution
                 if (line.StartsWith("1#"))
                 {
                     start.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
+                    boat.Location = start.Location;
                     start.Click+=(s, e) =>
                     {
                         MessageBox.Show("Start point");
@@ -45,6 +59,7 @@ namespace C__olympiad_solution
                     continue;
                 }
                 PictureBox currIsland=findIslandById(int.Parse(data[0]));
+                currIsland.Click += (s,e)=>boatglide(currIsland.Location);
                 currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
                 Database.addIsland(int.Parse(data[0]), data[1], int.Parse(data[4]), int.Parse(data[5]));
             }
