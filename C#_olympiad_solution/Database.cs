@@ -32,10 +32,12 @@ namespace C__olympiad_solution
     {
         private static Dictionary<string,User> usersTable;
         private static Dictionary<int, Island> islandsTable;
+        private static HashSet<int> islandVisitStatus;
         static Database()
         {
             usersTable = new Dictionary<string, User>();
             islandsTable = new Dictionary<int, Island>();
+            islandVisitStatus = new HashSet<int>();
             usersTable.Add("ojti@csharp.ro", new User("ojti@csharp.ro", "Ojti2025"));
         }
         public static void addIsland(int id,string name, int gold, int virus)
@@ -53,5 +55,16 @@ namespace C__olympiad_solution
             }
             return false;
         }
+        public static void setIslandVisited(int id)
+        {
+            islandVisitStatus.Add(id);
+        }
+        public static bool checkIslandStatus(int id)
+        {
+            if (islandVisitStatus.Contains(id))
+            {
+                return false;
+            }
+            return true;
     }
 }

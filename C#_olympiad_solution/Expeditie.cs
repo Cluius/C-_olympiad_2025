@@ -58,10 +58,22 @@ namespace C__olympiad_solution
                     };
                     continue;
                 }
-                PictureBox currIsland=findIslandById(int.Parse(data[0]));
-                currIsland.Click += (s,e)=>boatglide(currIsland.Location);
+                int islandId= int.Parse(data[0]);
+                PictureBox currIsland=findIslandById(islandId);
+                currIsland.Click += (s, e) =>
+                {
+                    if(Database.checkIslandStatus(islandId))
+                    {
+                        Database.setIslandVisited(islandId);
+                        boatglide(currIsland.Location);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Interzis!");
+                    }
+                };
                 currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
-                Database.addIsland(int.Parse(data[0]), data[1], int.Parse(data[4]), int.Parse(data[5]));
+                Database.addIsland(islandId, data[1], int.Parse(data[4]), int.Parse(data[5]));
             }
         }
     }
