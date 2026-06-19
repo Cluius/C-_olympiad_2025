@@ -35,13 +35,14 @@ namespace C__olympiad_solution
                     continue;
                 }
                 string[] data = line.Split("#");
-                if (line.StartsWith("1"))
+                if (line.StartsWith("1#"))
                 {
                     start.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
                     start.Click+=(s, e) =>
                     {
                         MessageBox.Show("Start point");
                     };
+                    continue;
                 }
                 PictureBox currIsland=findIslandById(int.Parse(data[0]));
                 currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
