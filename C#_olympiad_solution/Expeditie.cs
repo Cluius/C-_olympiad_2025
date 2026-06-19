@@ -13,6 +13,11 @@ namespace C__olympiad_solution
         private int cargo=0;
         private int food=0;
         private int gold = 0;
+        private PictureBox findIslandById(int id)
+        {
+            Control[] matches = this.Controls.Find("insula" + id.ToString(), true);
+            return matches.Length>0 ? (PictureBox)matches[0] : null;
+        }
         public Expeditie(int nrexp)
         {
             InitializeComponent();
@@ -22,6 +27,18 @@ namespace C__olympiad_solution
             label2.Text = food.ToString();
             label3.Text=0.ToString();
             label4.Text = cargo.ToString();
+            string islandFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName,"Resources","insule.txt");
+            foreach(string line in System.IO.File.ReadLines(islandFile))
+            {
+                if (line.StartsWith("Id") || line.StartsWith("1")) 
+                {
+                    continue;
+                }
+                string[] data = line.Split("#");
+                PictureBox currIsland=findIslandById(int.Parse(data[0]));
+                currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
+                Database.addIsland(int.Parse(data[0]), data[1], int.Parse(data[4]), int.Parse(data[5]));
+            }
         }
     }
 }
