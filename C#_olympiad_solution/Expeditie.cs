@@ -13,6 +13,7 @@ namespace C__olympiad_solution
         private int cargo=0;
         private int food=0;
         private int gold = 0;
+        private string currBoatLocation;
         private PictureBox findIslandById(int id)
         {
             Control[] matches = this.Controls.Find("insula" + id.ToString(), true);
@@ -36,13 +37,14 @@ namespace C__olympiad_solution
             foreach(Island isl in Database.getIslands().Values)
             {
                 Label lbl = new Label();
+                lbl.Name= "label" + isl.Id.ToString();
                 lbl.Text = isl.Name;
-                lbl.Location = new Point(findIslandById(isl.Id).Location.X,findIslandById(isl.Id).Location.Y-20);
+                lbl.Location = new Point(findIslandById(isl.Id).Location.X-60,findIslandById(isl.Id).Location.Y+20);
                 lbl.Visible = false;
                 lbl.BackColor = Color.Transparent;
                 lbl.AutoSize = true;
-                lbl.BringToFront();
                 this.Controls.Add(lbl);
+                lbl.BringToFront();
             }
         }
         public Expeditie(int nrexp)
@@ -50,12 +52,14 @@ namespace C__olympiad_solution
             InitializeComponent();
             food = 200 * nrexp;
             cargo = 90 * nrexp + cargo + food + gold;
+            currBoatLocation = "Cadiz";
             label1.Text = nrexp.ToString();
             label2.Text = food.ToString();
             label3.Text=0.ToString();
             label4.Text = cargo.ToString();
             string islandFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName,"Resources","insule.txt");
-            foreach(string line in System.IO.File.ReadLines(islandFile))
+            string distanceFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName, "Resources", "distante.txt");
+            foreach (string line in System.IO.File.ReadLines(islandFile))
             {
                 if (line.StartsWith("Id")) 
                 {
@@ -80,6 +84,9 @@ namespace C__olympiad_solution
                     {
                         Database.setIslandVisited(islandId);
                         boatglide(currIsland.Location);
+                        this.Controls.Find("label" + islandId.ToString(), true)[0].Visible = true;
+                        MessageBox.Show("Ai navigat "+Database.getDistance(currBoatLocation,islandId));
+                        currBoatLocation = Database.getIslandNameById(islandId);
                     }
                     else
                     {
@@ -88,6 +95,23 @@ namespace C__olympiad_solution
                 };
                 currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
                 Database.addIsland(islandId, data[1], int.Parse(data[4]), int.Parse(data[5]));
+            }
+
+            foreach(string line in System.IO.File.ReadLines(distanceFile))
+            {
+                if (line.StartsWith("Dist"))
+                {
+                    continue;
+                }
+                string[] data= line.Split('#');
+                for(int i=1; i < data.Length; i++)
+                {
+                    if (data[i] == "x")
+                    {
+                        continue;
+                    }
+                    Database.addDistance(data[0], i, int.Parse(data[i]));
+                }
             }
             GenerateIslandLabels();
         }
