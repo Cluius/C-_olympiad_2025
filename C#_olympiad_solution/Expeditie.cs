@@ -47,21 +47,11 @@ namespace C__olympiad_solution
                 lbl.BringToFront();
             }
         }
-        public Expeditie(int nrexp)
+        private void loadIslandData(string islandFile,int nrexp)
         {
-            InitializeComponent();
-            food = 200 * nrexp;
-            cargo = 90 * nrexp + cargo + food + gold;
-            currBoatLocation = "Cadiz";
-            label1.Text = nrexp.ToString();
-            label2.Text = food.ToString();
-            label3.Text=0.ToString();
-            label4.Text = cargo.ToString();
-            string islandFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName,"Resources","insule.txt");
-            string distanceFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName, "Resources", "distante.txt");
             foreach (string line in System.IO.File.ReadLines(islandFile))
             {
-                if (line.StartsWith("Id")) 
+                if (line.StartsWith("Id"))
                 {
                     continue;
                 }
@@ -70,17 +60,17 @@ namespace C__olympiad_solution
                 {
                     start.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
                     boat.Location = start.Location;
-                    start.Click+=(s, e) =>
+                    start.Click += (s, e) =>
                     {
                         MessageBox.Show("Start point");
                     };
                     continue;
                 }
-                int islandId= int.Parse(data[0]);
-                PictureBox currIsland=findIslandById(islandId);
+                int islandId = int.Parse(data[0]);
+                PictureBox currIsland = findIslandById(islandId);
                 currIsland.Click += (s, e) =>
                 {
-                    if(Database.checkIslandStatus(islandId))
+                    if (Database.checkIslandStatus(islandId))
                     {
                         int TripLengthDays = Database.getDistance(currBoatLocation, islandId) / 100;
                         int foodConsumed = TripLengthDays * 2 * nrexp;
@@ -100,7 +90,7 @@ namespace C__olympiad_solution
                             label2.Text = food.ToString();
                             label3.Text = 0.ToString();
                             label4.Text = cargo.ToString();
-                            
+
                         }
                         else
                         {
@@ -115,15 +105,17 @@ namespace C__olympiad_solution
                 currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
                 Database.addIsland(islandId, data[1], int.Parse(data[4]), int.Parse(data[5]));
             }
-
-            foreach(string line in System.IO.File.ReadLines(distanceFile))
+        }
+        private void loadDistanceData(string distanceFile)
+        {
+            foreach (string line in System.IO.File.ReadLines(distanceFile))
             {
                 if (line.StartsWith("Dist"))
                 {
                     continue;
                 }
-                string[] data= line.Split('#');
-                for(int i=1; i < data.Length; i++)
+                string[] data = line.Split('#');
+                for (int i = 1; i < data.Length; i++)
                 {
                     if (data[i] == "x")
                     {
@@ -132,6 +124,21 @@ namespace C__olympiad_solution
                     Database.addDistance(data[0], i, int.Parse(data[i]));
                 }
             }
+        }
+        public Expeditie(int nrexp)
+        {
+            InitializeComponent();
+            food = 200 * nrexp;
+            cargo = 90 * nrexp + cargo + food + gold;
+            currBoatLocation = "Cadiz";
+            label1.Text = nrexp.ToString();
+            label2.Text = food.ToString();
+            label3.Text=0.ToString();
+            label4.Text = cargo.ToString();
+            string islandFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName,"Resources","insule.txt");
+            string distanceFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName, "Resources", "distante.txt");
+            loadIslandData(islandFile, nrexp);
+            loadDistanceData(distanceFile);
             GenerateIslandLabels();
         }
     }
