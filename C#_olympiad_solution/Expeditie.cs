@@ -82,11 +82,20 @@ namespace C__olympiad_solution
                 {
                     if(Database.checkIslandStatus(islandId))
                     {
-                        Database.setIslandVisited(islandId);
-                        boatglide(currIsland.Location);
-                        this.Controls.Find("label" + islandId.ToString(), true)[0].Visible = true;
-                        MessageBox.Show("Ai navigat "+Database.getDistance(currBoatLocation,islandId));
-                        currBoatLocation = Database.getIslandNameById(islandId);
+                        int TripLengthDays = Database.getDistance(currBoatLocation, islandId) / 100;
+                        int foodConsumed = TripLengthDays * 2 * nrexp;
+                        if (foodConsumed <= food)
+                        {
+                            Database.setIslandVisited(islandId);
+                            boatglide(currIsland.Location);
+                            this.Controls.Find("label" + islandId.ToString(), true)[0].Visible = true;
+                            MessageBox.Show("Ai navigat " + TripLengthDays.ToString() + " si ai consumat " + foodConsumed.ToString());
+                            currBoatLocation = Database.getIslandNameById(islandId);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Esuat, hrana insuficienta");
+                        }
                     }
                     else
                     {
