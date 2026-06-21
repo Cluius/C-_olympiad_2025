@@ -91,6 +91,16 @@ namespace C__olympiad_solution
                             this.Controls.Find("label" + islandId.ToString(), true)[0].Visible = true;
                             MessageBox.Show("Ai navigat " + TripLengthDays.ToString() + " si ai consumat " + foodConsumed.ToString());
                             currBoatLocation = Database.getIslandNameById(islandId);
+                            food -= foodConsumed;
+                            if (islandId > 1 && islandId < 8)
+                            {
+                                food = nrexp * 200;
+                            }
+                            label1.Text = nrexp.ToString();
+                            label2.Text = food.ToString();
+                            label3.Text = 0.ToString();
+                            label4.Text = cargo.ToString();
+                            
                         }
                         else
                         {

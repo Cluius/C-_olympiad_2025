@@ -77,6 +77,7 @@ namespace C__olympiad_solution
             UserBox.Name = "UserBox";
             UserBox.Size = new Size(257, 23);
             UserBox.TabIndex = 3;
+            UserBox.KeyDown += UserBox_KeyDown;
             // 
             // PasswordBox
             // 
@@ -85,6 +86,7 @@ namespace C__olympiad_solution
             PasswordBox.PasswordChar = '*';
             PasswordBox.Size = new Size(257, 23);
             PasswordBox.TabIndex = 4;
+            PasswordBox.KeyDown += PasswordBox_KeyDown;
             // 
             // Form1
             // 

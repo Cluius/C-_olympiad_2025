@@ -52,6 +52,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(51, 23);
             textBox1.TabIndex = 1;
+            textBox1.KeyDown += textBox1_KeyDown;
             // 
             // label1
             // 

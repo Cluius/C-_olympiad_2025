@@ -42,5 +42,23 @@ namespace C__olympiad_solution
             pictureBox1.Top += 2;
             pictureBox1.BorderStyle = BorderStyle.None;
         }
+
+        private void UserBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                PasswordBox.Focus();
+            }
+        }
+
+        private void PasswordBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                pictureBox1_Click(sender, e);
+            }
+        }
     }
 }

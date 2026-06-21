@@ -33,5 +33,14 @@ namespace C__olympiad_solution
                 }
             }
         }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                button1_Click(sender, e);
+            }
+        }
     }
 }
