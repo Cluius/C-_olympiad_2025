@@ -84,16 +84,23 @@ namespace C__olympiad_solution
                             food -= foodConsumed;
                             if (islandId > 1 && islandId < 8)
                             {
-                                food = nrexp * 200;
+                                if (cargo + (double)((nrexp * 200 - food)/1000) <= 100)
+                                {
+                                    food = nrexp * 200;
+                                }
+                                else
+                                {
+                                    food+= (int)((100 - cargo) * 1000);
+                                }
                             }
-                            cargo = (double)(nrexp * 90 + food + gold*1000)/1000;
+                            cargo = (double)(nrexp * 90 + food + gold)/1000;
                             if (Database.islandHasGold(islandId))
                             {
                                 int goldOnIsland= Random.Shared.Next(10, 100);
                                 if (cargo + goldOnIsland > 100)
                                 {
                                     gold+= (100 - (int)cargo)*1000;
-                                    MessageBox.Show(Database.getIslandDesc(islandId) + "\nPe insula sunt " + goldOnIsland.ToString() + " tone de bogatii\nExploratorii incarca "+(100-(int)cargo).ToString()+" tone de bogatii");
+                                    MessageBox.Show(Database.getIslandDesc(islandId) + "\nPe insula sunt " + goldOnIsland.ToString() + " tone de bogatii\nExploratorii incarca "+(100-cargo).ToString()+" tone de bogatii");
                                     cargo = 100;
 
                                 }
