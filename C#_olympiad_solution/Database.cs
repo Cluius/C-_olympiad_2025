@@ -120,5 +120,13 @@ namespace C__olympiad_solution
             }
             return null; // Return null if island not found
         }
+        public static bool isIslandInfected(int id)
+        {
+            if (islandsTable.ContainsKey(id))
+            {
+                return islandsTable[id].Virus > 0;
+            }
+            return false; // Return false if island not found
+        }
     }
 }

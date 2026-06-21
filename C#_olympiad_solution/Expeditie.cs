@@ -47,7 +47,12 @@ namespace C__olympiad_solution
                 lbl.BringToFront();
             }
         }
-        private void loadIslandData(string islandFile,int nrexp)
+        private void gameOver(Exploratori form2)
+        {
+            form2.Show();
+            this.Close();
+        }
+        private void loadIslandData(string islandFile,int nrexp,Exploratori form2)
         {
             foreach (string line in System.IO.File.ReadLines(islandFile))
             {
@@ -91,6 +96,15 @@ namespace C__olympiad_solution
                                 else
                                 {
                                     food+= (int)((100 - cargo) * 1000);
+                                }
+                            }
+                            if (Database.isIslandInfected(islandId))
+                            {
+                                nrexp /= 2;
+                                if (nrexp < 30)
+                                {
+                                    MessageBox.Show("Esuat, numar insuficient de exploratori");
+                                    gameOver(form2);
                                 }
                             }
                             cargo = (double)(nrexp * 90 + food + gold)/1000;
@@ -154,7 +168,7 @@ namespace C__olympiad_solution
                 }
             }
         }
-        public Expeditie(int nrexp)
+        public Expeditie(int nrexp,Exploratori form2)
         {
             InitializeComponent();
             food = 200 * nrexp;
@@ -166,7 +180,7 @@ namespace C__olympiad_solution
             label4.Text = cargo.ToString();
             string islandFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName,"Resources","insule.txt");
             string distanceFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName, "Resources", "distante.txt");
-            loadIslandData(islandFile, nrexp);
+            loadIslandData(islandFile, nrexp,form2);
             loadDistanceData(distanceFile);
             GenerateIslandLabels();
         }
