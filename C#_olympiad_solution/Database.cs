@@ -19,12 +19,14 @@ namespace C__olympiad_solution
         public string Name { get; set; }
         public int Gold { get; set; }
         public int Virus { get; set; }
-        public Island(int id, string name, int gold, int virus)
+        public string Desc { get; set; }
+        public Island(int id, string name, int gold, int virus,string Desc)
         {
             this.Id = id;
             this.Name = name;
             this.Gold = gold;
             this.Virus=virus;
+            this.Desc = Desc;
         }
     }
 
@@ -43,9 +45,9 @@ namespace C__olympiad_solution
             usersTable.Add("ojti@csharp.ro", new User("ojti@csharp.ro", "Ojti2025"));
             
         }
-        public static void addIsland(int id, string name, int gold, int virus)
+        public static void addIsland(int id, string name, int gold, int virus,string Desc)
         {
-            islandsTable.Add(id, new Island(id, name, gold, virus));
+            islandsTable.Add(id, new Island(id, name, gold, virus,Desc));
         }
         public static void addDistance(string islFrom, int idIslTo, int distance) 
         {
@@ -99,6 +101,22 @@ namespace C__olympiad_solution
             if (islandsTable.ContainsKey(id))
             {
                 return islandsTable[id].Name;
+            }
+            return null; // Return null if island not found
+        }
+        public static bool islandHasGold(int id)
+        {
+            if (islandsTable.ContainsKey(id))
+            {
+                return islandsTable[id].Gold > 0;
+            }
+            return false; // Return false if island not found
+        }
+        public static string getIslandDesc(int id)
+        {
+            if (islandsTable.ContainsKey(id))
+            {
+                return islandsTable[id].Desc;
             }
             return null; // Return null if island not found
         }

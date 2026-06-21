@@ -10,7 +10,7 @@ namespace C__olympiad_solution
 {
     public partial class Expeditie : Form
     {
-        private int cargo=0;
+        private double cargo=0;
         private int food=0;
         private int gold = 0;
         private string currBoatLocation;
@@ -79,16 +79,38 @@ namespace C__olympiad_solution
                             Database.setIslandVisited(islandId);
                             boatglide(currIsland.Location);
                             this.Controls.Find("label" + islandId.ToString(), true)[0].Visible = true;
-                            MessageBox.Show("Ai navigat " + TripLengthDays.ToString() + " si ai consumat " + foodConsumed.ToString());
+                            MessageBox.Show("Ai navigat " + TripLengthDays.ToString() + "zile si ai consumat " + foodConsumed.ToString() +" kg de hrana");
                             currBoatLocation = Database.getIslandNameById(islandId);
                             food -= foodConsumed;
                             if (islandId > 1 && islandId < 8)
                             {
                                 food = nrexp * 200;
                             }
+                            cargo = (double)(nrexp * 90 + food + gold*1000)/1000;
+                            if (Database.islandHasGold(islandId))
+                            {
+                                int goldOnIsland= Random.Shared.Next(10, 100);
+                                if (cargo + goldOnIsland > 100)
+                                {
+                                    gold+= (100 - (int)cargo)*1000;
+                                    MessageBox.Show(Database.getIslandDesc(islandId) + "\nPe insula sunt " + goldOnIsland.ToString() + " tone de bogatii\nExploratorii incarca "+(100-(int)cargo).ToString()+" tone de bogatii");
+                                    cargo = 100;
+
+                                }
+                                else
+                                {
+                                    gold += goldOnIsland*1000;
+                                    MessageBox.Show(Database.getIslandDesc(islandId) + "\nPe insula sunt " + goldOnIsland.ToString() + " tone de bogatii\nExploratorii incarca " + goldOnIsland.ToString() + " tone de bogatii");
+                                    cargo += goldOnIsland;
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show(Database.getIslandDesc(islandId) + "\nPe insula sunt 0 tone de bogatii\nExploratorii incarca 0 tone de bogatii");
+                            }
                             label1.Text = nrexp.ToString();
-                            label2.Text = food.ToString();
-                            label3.Text = 0.ToString();
+                            label2.Text = (food/1000.0).ToString();
+                            label3.Text = (gold/1000.0).ToString();
                             label4.Text = cargo.ToString();
 
                         }
@@ -103,7 +125,7 @@ namespace C__olympiad_solution
                     }
                 };
                 currIsland.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
-                Database.addIsland(islandId, data[1], int.Parse(data[4]), int.Parse(data[5]));
+                Database.addIsland(islandId, data[1], int.Parse(data[4]), int.Parse(data[5]), data[6]);
             }
         }
         private void loadDistanceData(string distanceFile)
@@ -129,10 +151,10 @@ namespace C__olympiad_solution
         {
             InitializeComponent();
             food = 200 * nrexp;
-            cargo = 90 * nrexp + cargo + food + gold;
+            cargo = (90 * nrexp + cargo + food)/1000.0;
             currBoatLocation = "Cadiz";
             label1.Text = nrexp.ToString();
-            label2.Text = food.ToString();
+            label2.Text = (food/1000.0).ToString();
             label3.Text=0.ToString();
             label4.Text = cargo.ToString();
             string islandFile = Path.Combine(Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName,"Resources","insule.txt");
