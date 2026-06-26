@@ -14,6 +14,8 @@ namespace C__olympiad_solution
         private int food=0;
         private int gold = 0;
         private string currBoatLocation;
+        private Point prevIsland;
+        private List<Tuple<Point, Point>> travelPaths = new List<Tuple<Point, Point>>();
         private PictureBox findIslandById(int id)
         {
             Control[] matches = this.Controls.Find("insula" + id.ToString(), true);
@@ -31,6 +33,20 @@ namespace C__olympiad_solution
                 
             }
             boat.Location = destination;
+            travelPaths.Add(new Tuple<Point, Point>(prevIsland, destination));
+            prevIsland = destination;
+            this.Invalidate();
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            using (Pen routepen=new Pen(Color.Green, 3))
+            {
+                foreach (Tuple<Point,Point> path in travelPaths)
+                {
+                    e.Graphics.DrawLine(routepen, path.Item1, path.Item2);
+                }
+            }
         }
         private void GenerateIslandLabels()
         {
@@ -65,6 +81,7 @@ namespace C__olympiad_solution
                 {
                     start.Location = new Point(int.Parse(data[2]), int.Parse(data[3]));
                     boat.Location = start.Location;
+                    prevIsland = start.Location;
                     start.Click += (s, e) =>
                     {
                         MessageBox.Show("Start point");
@@ -100,6 +117,7 @@ namespace C__olympiad_solution
                             }
                             if (Database.isIslandInfected(islandId))
                             {
+                                MessageBox.Show("Pe insula sunt prezente virusuri, jumatate din exploratori mor in timpul expeditiei");
                                 nrexp /= 2;
                                 if (nrexp < 30)
                                 {
